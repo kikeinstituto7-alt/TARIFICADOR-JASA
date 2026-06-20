@@ -11748,7 +11748,7 @@ const CARRERAS_DIRECTOS={
 function getCarrerasDirectosIdx(n){if(n<=6)return 0;if(n<=8)return 1;if(n<=11)return 2;if(n<=13)return 3;if(n<=16)return 4;if(n<=18)return 5;if(n<=21)return 6;if(n<=23)return 7;return 8;}
 const CARRERAS_TRANSIT = {'ES03':'24h','ES12':'24h','ES46':'24h','ES02':'24h','ES44':'24h','ES45':'24h','ES13':'24h','ES08':'24h','ES43':'24h','ES25':'24h','ES17':'24h','ES28':'24h','ES19':'24h','ES50':'24h','ES22':'24h','ES26':'24h','ES31':'24h','ES30':'24h','ES41':'24h','ES14':'24h','ES18':'24h','ES23':'24h','ES29':'24h','ES16':'24h','ES40':'24h','ES42':'24h','ES09':'24h','ES01':'24h','ES20':'24h','ES48':'24h','ES47':'24h','ES05':'24h','ES04':'48h','ES06':'48h','ES10':'48h','ES11':'48h','ES21':'48h','ES24':'48h','ES34':'48h','ES37':'48h','ES49':'48h','ES39':'48h','ES33':'48h','ES36':'48h','ES15':'48h','ES27':'48h','ES32':'48h','ES07-MAL':'72h','ES07-MEN':'72h','ES07-IBI':'72h','ES07-FOR':'72h','ES35':'5/6d','ES51':'96h','ES52':'96h','AD':'72h','GB':'--'};
 const TSB_TRANSIT = {'ES03':'24h','ES12':'24h','ES46':'24h','ES02':'24h','ES30':'24h','ES13':'24h','ES45':'24h','ES28':'24h','ES08':'24h','ES43':'24h','ES50':'24h','ES19':'24h','ES17':'24/48h','ES25':'24/48h','ES44':'24/48h','ES16':'24/48h','ES41':'24/48h','ES14':'24/48h','ES18':'24/48h','ES29':'24/48h','ES23':'24/48h','ES11':'24/48h','ES04':'24/48h','ES40':'24/48h','ES42':'24/48h','ES26':'24/48h','ES22':'24/48h','ES05':'48h','ES09':'48h','ES47':'48h','ES01':'48h','ES20':'48h','ES48':'48h','ES31':'48h','ES39':'48h','ES21':'48h','ES06':'48h','ES10':'48h','ES34':'48h','ES15':'48/72h','ES27':'48/72h','ES32':'48/72h','ES36':'48/72h','ES33':'48/72h','ES24':'48/72h','ES37':'48/72h','ES49':'48/72h','ES07-MAL':'48/72h','ES07-MEN':'48/72h','ES07-IBI':'48/72h','ES07-FOR':'48/72h','ES35':'7d','ES51':'48/72h','ES52':'48/72h','AD':'24/48h','GB':'48/72h'};
-const TRANSAHER_TRANSIT = {'ES02':'24h','ES03':'24h','ES04':'48h','ES05':'48h','ES06':'48h','ES08':'24h','ES48':'24/48h','ES09':'48h','ES10':'48h','ES11':'48h','ES12':'24h','ES13':'24h','ES14':'48h','ES15':'48h','ES16':'24/48h','ES17':'24/48h','ES18':'24/48h','ES19':'24h','ES21':'24/48h','ES23':'24/48h','ES24':'48h','ES25':'24/48h','ES26':'48h','ES27':'48h','ES28':'24h','ES29':'24/48h','ES30':'24h','ES32':'48h','ES33':'48h','ES07-MAL':'48/72h','ES34':'48h','ES31':'24/48h','ES36':'48h','ES20':'48h','ES37':'48h','ES39':'24/48h','ES40':'48h','ES41':'24/48h','ES42':'48h','ES43':'24h','ES44':'48h','ES22':'48h','ES45':'24h','ES46':'24h','ES47':'24/48h','ES01':'48h','ES49':'48h','ES50':'24h','GB':'48/72h','ES07-MEN':'48/72h','ES07-IBI':'48/72h','ES07-FOR':'48/72h','ES35':'5/6d','ES51':'96h','ES52':'96h','AD':'48/72h','GB':'72h'};const TSB_BAREMOS={'ES01':5,'ES02':3,'ES03':1,'ES04':4,'ES05':6,'ES06':6,'ES08':3,'ES09':6,'ES10':6,'ES11':6,'ES12':1,'ES13':5,'ES14':4,'ES15':6,'ES16':6,'ES17':5,'ES18':4,'ES19':5,'ES20':5,'ES21':6,'ES22':5,'ES23':4,'ES24':6,'ES25':5,'ES26':5,'ES27':6,'ES28':3,'ES29':4,'ES30':2,'ES31':5,'ES32':6,'ES33':6,'ES34':6,'ES35':8,'ES36':6,'ES37':6,'ES38':8,'ES39':6,'ES40':6,'ES41':4,'ES42':6,'ES43':2,'ES44':6,'ES45':4,'ES46':1,'ES47':5,'ES48':5,'ES49':6,'ES50':2,'ES51':8,'ES52':8,'AD':3,'GB':6,'ES07-MAL':7,'ES07-MEN':7,'ES07-IBI':7,'ES07-FOR':7,'AD':3};
+const TRANSAHER_TRANSIT = {'ES02':'24h','ES03':'24h','ES04':'48h','ES05':'48h','ES06':'48h','ES08':'24h','ES48':'24/48h','ES09':'48h','ES10':'48h','ES11':'48h','ES12':'24h','ES13':'24h','ES14':'48h','ES15':'48h','ES16':'24/48h','ES17':'24/48h','ES18':'24/48h','ES19':'24h','ES21':'24/48h','ES23':'24/48h','ES24':'48h','ES25':'24/48h','ES26':'48h','ES27':'48h','ES28':'24h','ES29':'24/48h','ES30':'24h','ES32':'48h','ES33':'48h','ES07-MAL':'48/72h','ES34':'48h','ES31':'24/48h','ES36':'48h','ES20':'48h','ES37':'48h','ES39':'24/48h','ES40':'48h','ES41':'24/48h','ES42':'48h','ES43':'24h','ES44':'48h','ES22':'48h','ES45':'24h','ES46':'24h','ES47':'24/48h','ES01':'48h','ES49':'48h','ES50':'24h','ES07-MEN':'48/72h','ES07-IBI':'48/72h','ES07-FOR':'48/72h','ES35':'5/6d','ES51':'96h','ES52':'96h','AD':'48/72h','GB':'72h'};const TSB_BAREMOS={'ES01':5,'ES02':3,'ES03':1,'ES04':4,'ES05':6,'ES06':6,'ES08':3,'ES09':6,'ES10':6,'ES11':6,'ES12':1,'ES13':5,'ES14':4,'ES15':6,'ES16':6,'ES17':5,'ES18':4,'ES19':5,'ES20':5,'ES21':6,'ES22':5,'ES23':4,'ES24':6,'ES25':5,'ES26':5,'ES27':6,'ES28':3,'ES29':4,'ES30':2,'ES31':5,'ES32':6,'ES33':6,'ES34':6,'ES35':8,'ES36':6,'ES37':6,'ES38':8,'ES39':6,'ES40':6,'ES41':4,'ES42':6,'ES43':2,'ES44':6,'ES45':4,'ES46':1,'ES47':5,'ES48':5,'ES49':6,'ES50':2,'ES51':8,'ES52':8,'AD':3,'GB':6,'ES07-MAL':7,'ES07-MEN':7,'ES07-IBI':7,'ES07-FOR':7};
 const TSB_REX={'AD':7,'ES07-MAL':1,'ES07-MEN':1,'ES07-IBI':1,'ES07-FOR':6,'GB':5,'ES35':6,'ES38':6,'ES51':1,'ES52':1};
 
 const TSB_FIXED_BRACKETS=[10,20,30,40,50,60,70,80,90,100,125,150,175,200,250,300,350,400,450,500,600,700,800,900,1000];
@@ -11817,7 +11817,7 @@ function buscarPoblacion(cp) {
 }
 function getKgRate(kgArr, peso) {if (peso <= 200) return kgArr[0];if (peso <= 500) return kgArr[1];if (peso <= 1000) return kgArr[2];if (peso <= 2000) return kgArr[3];if (peso <= 3000) return kgArr[4];return kgArr[5];}const CARRERAS_DUA={'ES51':35,'ES52':35,'GB':35};function getCarrerasRate(kgArr, peso) {if (peso <= 150) return kgArr[0];if (peso <= 200) return kgArr[1];if (peso <= 500) return kgArr[2];if (peso <= 1000) return kgArr[3];if (peso <= 3000) return kgArr[4];return kgArr[5];}function carrerasBracketLabel(kg) {if(kg<=150)return '0-150 kg · mín.';if(kg<=200)return '151-200 kg';if(kg<=500)return '201-500 kg';if(kg<=1000)return '501-1000 kg';if(kg<=3000)return '1001-3000 kg';return '>3000 kg';}function calcAgencia(agency, prov, nEur, pesoEur, nAme, pesoAme, remontable, servicio, fuelPct, aldiActivo, valorDeclarado, alturaActivo) {if (agency.id === 'fng') return calcFNG(prov, pesoEur + pesoAme, nEur, nAme, remontable, fuelPct);if (agency.id === 'tsb') return calcTSB(prov, pesoEur + pesoAme, nEur, nAme, remontable, fuelPct);
 if (agency.id === 'transaher') return calcTransaher(prov, pesoEur + pesoAme, nEur, nAme, remontable, fuelPct, document.getElementById('codigo-postal')?.value, valorDeclarado || 0, alturaActivo);const d = agency.data[prov];if (!d) return null;const totalPallets = nEur + nAme;const pesoTotal = pesoEur + pesoAme;if (totalPallets === 0 || pesoTotal === 0) return null;let pBaseEur = 0;if (nEur > 0 && pesoEur > 0) {
-  if (agency.id === 'carreras' && nEur >= 5) {
+  if (agency.id === 'carreras' && nEur >= 6) {
     const dirRates = CARRERAS_DIRECTOS[prov];
     if (dirRates) { pBaseEur = dirRates[getCarrerasDirectosIdx(nEur)]; }
     else { const rateEur = getCarrerasRate(d.kg, pesoEur); pBaseEur = Math.max(rateEur * pesoEur, d.min); }
@@ -11846,7 +11846,7 @@ if (cd) {
   const pesoRef = (pesoActual && pesoActual > 0) ? pesoActual : 1;
   const nEurRef = parseInt(document.getElementById('pallets-eur')?.value) || 1;
   let precio, tramoLabel, rateCell;
-  if (nEurRef >= 5 && CARRERAS_DIRECTOS[prov]) {
+  if (nEurRef >= 6 && CARRERAS_DIRECTOS[prov]) {
     precio = CARRERAS_DIRECTOS[prov][getCarrerasDirectosIdx(nEurRef)];
     tramoLabel = 'Directo ' + (nEurRef <= 6 ? '5-6' : nEurRef <= 8 ? '7-8' : nEurRef <= 11 ? '9-11' : nEurRef <= 13 ? '12-13' : nEurRef <= 16 ? '14-16' : nEurRef <= 18 ? '17-18' : nEurRef <= 21 ? '19-21' : nEurRef <= 23 ? '22-23' : nEurRef === 24 ? '>23 (24 pal)' : '>23') + ' pal';
     rateCell = '—';
@@ -11895,9 +11895,23 @@ if (tsb_b) {
     tsbBracketLabel = ' · ≤' + (TSB_TON_BRACKETS[tIdx2]===99999?'>5000':TSB_TON_BRACKETS[tIdx2]) + ' kg';
   }
   const tsb_rex = TSB_REX[prov];
+  let tsbSuplRex = 0;
+  if (tsb_rex) {
+    const rexBi = tsb_rex - 1;
+    if (pesoRefCol <= 1000) {
+      let rIdx = TSB_FIXED_BRACKETS.length-1;
+      for (let i=0;i<TSB_FIXED_BRACKETS.length;i++){ if(TSB_FIXED_BRACKETS[i]>=pesoRefCol){rIdx=i;break;} }
+      tsbSuplRex = TSB_FIXED_RATES[rIdx][rexBi];
+    } else {
+      let rIdx = TSB_TON_BRACKETS.length-1;
+      for (let i=0;i<TSB_TON_BRACKETS.length;i++){ if(TSB_TON_BRACKETS[i]>=pesoRefCol){rIdx=i;break;} }
+      tsbSuplRex = Math.round(TSB_TON_RATES[rIdx][rexBi]*pesoRefCol/1000*100)/100;
+    }
+  }
+  const tsbTotal = Math.round((tsbPrecio + tsbSuplRex)*100)/100;
   const tsbBadgeLabel = tsb_rex ? ('Baremo B' + tsb_b + ' + REX ' + tsb_rex + tsbBracketLabel) : ('Baremo B' + tsb_b + tsbBracketLabel);
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td class="tag-t">TSB TRANSDINA</td><td>${name}</td><td>${fmtE(tsbPrecio)}</td><td>${badge(tsbBadgeLabel,'#059669')}</td><td>${tsbKgCell}</td>`;
+  tr.innerHTML = `<td class="tag-t">TSB TRANSDINA</td><td>${name}</td><td>${fmtE(tsbTotal)}</td><td>${badge(tsbBadgeLabel,'#059669')}</td><td>${tsbKgCell}</td>`;
   tbody.appendChild(tr);
 }
 
