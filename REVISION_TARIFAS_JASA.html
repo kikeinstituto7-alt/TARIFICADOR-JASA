@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Revisión de Tarifas JASA</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 12px; color: #1a1a2e; background: #f5f7fa; margin: 0; padding: 20px; }
+  h1 { font-size: 20px; color: #0d2b5e; border-bottom: 3px solid #0d2b5e; padding-bottom: 8px; margin-bottom: 24px; }
+  h2 { font-size: 15px; color: #1e5db8; background: #eef4fd; border-left: 4px solid #1e5db8; padding: 8px 12px; margin: 28px 0 12px; }
+  h3 { font-size: 12px; color: #3a5278; text-transform: uppercase; letter-spacing: 0.08em; margin: 16px 0 6px; }
+  table { border-collapse: collapse; width: 100%; margin-bottom: 16px; font-size: 11px; }
+  th { background: #0d2b5e; color: white; padding: 6px 8px; text-align: center; font-size: 10px; letter-spacing: 0.06em; }
+  td { padding: 5px 8px; border: 1px solid #d0dff5; text-align: right; }
+  td.label { text-align: left; font-weight: bold; color: #0d2b5e; background: #eef4fd; }
+  td.prov { text-align: left; }
+  tr:nth-child(even) td { background: #f8faff; }
+  tr:nth-child(even) td.label { background: #e4eefb; }
+  .note { background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #92400e; margin-bottom: 12px; }
+  .section { background: white; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(13,43,94,0.08); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .badge { display: inline-block; background: #eef4fd; border: 1px solid #b8d0f5; border-radius: 4px; padding: 2px 6px; font-size: 10px; color: #1e5db8; margin: 2px; }
+  @media print { body { background: white; } .section { box-shadow: none; border: 1px solid #ddd; } }
+</style>
+</head>
+<body>
+<h1>📋 REVISIÓN DE TARIFAS — TARIFICADOR JASA</h1>
+<p style="color:#7a93b8;margin-bottom:24px">Documento generado para revisión manual. Comprueba que los datos coinciden con las tarifas firmadas con cada agencia.</p>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────
+const CARRERAS = {ES01:{n:'Álava', min:27.52, kg:[0.1811,0.1531,0.1348,0.1224,0.1129,0.1049]}, ES02:{n:'Albacete', min:18.35, kg:[0.1219,0.1029,0.0880,0.0799,0.0742,0.0692]}, ES03:{n:'Alicante', min:15.73, kg:[0.1046,0.0883,0.0799,0.0716,0.0633,0.0589]}, ES04:{n:'Almería', min:31.45, kg:[0.2122,0.1797,0.1430,0.1252,0.1100,0.1024]}, ES05:{n:'Ávila', min:27.52, kg:[0.1811,0.1531,0.1348,0.1239,0.1155,0.1073]}, ES06:{n:'Badajoz', min:35.37, kg:[0.2332,0.1972,0.1733,0.1595,0.1487,0.1382]}, ES08:{n:'Barcelona', min:19.66, kg:[0.1288,0.1089,0.0963,0.0880,0.0825,0.0768]}, ES09:{n:'Burgos', min:24.90, kg:[0.1672,0.1414,0.1239,0.1129,0.1046,0.0973]}, ES10:{n:'Cáceres', min:32.75, kg:[0.2159,0.1825,0.1541,0.1404,0.1265,0.1177]}, ES11:{n:'Cádiz', min:32.75, kg:[0.2159,0.1825,0.1569,0.1446,0.1348,0.1253]}, ES12:{n:'Castellón', min:15.73, kg:[0.1046,0.0883,0.0770,0.0701,0.0633,0.0589]}, ES13:{n:'Ciudad Real', min:27.52, kg:[0.1845,0.1559,0.1404,0.1281,0.1182,0.1100]}, ES14:{n:'Córdoba', min:31.45, kg:[0.2055,0.1737,0.1487,0.1391,0.1265,0.1177]}, ES15:{n:'Coruña', min:35.37, kg:[0.2332,0.1972,0.1789,0.1678,0.1541,0.1434]}, ES16:{n:'Cuenca', min:27.52, kg:[0.1811,0.1531,0.1348,0.1239,0.1155,0.1073]}, ES17:{n:'Gerona', min:24.90, kg:[0.1636,0.1383,0.1210,0.1129,0.1046,0.0973]}, ES18:{n:'Granada', min:31.45, kg:[0.2088,0.1766,0.1458,0.1321,0.1182,0.1100]}, ES19:{n:'Guadalajara', min:20.97, kg:[0.1426,0.1206,0.1100,0.1005,0.0936,0.0870]}, ES20:{n:'Guipúzcoa', min:28.07, kg:[0.1882,0.1591,0.1431,0.1319,0.1234,0.1150]}, ES21:{n:'Huelva', min:32.75, kg:[0.2191,0.1855,0.1623,0.1487,0.1376,0.1281]}, ES22:{n:'Huesca', min:22.27, kg:[0.1497,0.1265,0.1129,0.1046,0.0963,0.0897]}, ES23:{n:'Jaén', min:27.52, kg:[0.1811,0.1531,0.1293,0.1155,0.1046,0.0973]}, ES24:{n:'León', min:31.45, kg:[0.2055,0.1737,0.1541,0.1430,0.1321,0.1229]}, ES25:{n:'Lérida', min:22.27, kg:[0.1497,0.1265,0.1129,0.1046,0.0963,0.0897]}, ES26:{n:'La Rioja', min:22.27, kg:[0.1497,0.1265,0.1129,0.1046,0.0963,0.0897]}, ES27:{n:'Lugo', min:36.68, kg:[0.2437,0.2061,0.1815,0.1678,0.1541,0.1434]}, ES28:{n:'Madrid', min:19.66, kg:[0.1288,0.1089,0.0963,0.0880,0.0825,0.0768]}, ES29:{n:'Málaga', min:27.52, kg:[0.1811,0.1531,0.1348,0.1239,0.1155,0.1073]}, ES30:{n:'Murcia', min:18.35, kg:[0.1252,0.1061,0.0880,0.0825,0.0742,0.0692]}, ES31:{n:'Navarra', min:23.57, kg:[0.1568,0.1325,0.1155,0.1088,0.1019,0.0946]}, ES32:{n:'Orense', min:36.68, kg:[0.2437,0.2061,0.1815,0.1678,0.1541,0.1434]}, ES33:{n:'Asturias', min:34.05, kg:[0.2229,0.1884,0.1678,0.1541,0.1430,0.1331]}, ES34:{n:'Palencia', min:27.52, kg:[0.1845,0.1559,0.1376,0.1281,0.1182,0.1100]}, ES35:{n:'Canarias',min:65.50, kg:[0.4385,0.3709,0.3329,0.3248,0.3166,0.2943]}, ES36:{n:'Pontevedra', min:35.37, kg:[0.2332,0.1972,0.1789,0.1678,0.1541,0.1434]}, ES37:{n:'Salamanca', min:30.12, kg:[0.1985,0.1678,0.1458,0.1363,0.1265,0.1177]}, ES38:{n:'Tenerife', min:65.50, kg:[0.4385,0.3709,0.3329,0.3248,0.3166,0.2943]}, ES39:{n:'Cantabria', min:31.45, kg:[0.2088,0.1766,0.1541,0.1404,0.1321,0.1229]}, ES40:{n:'Segovia', min:26.20, kg:[0.1741,0.1471,0.1293,0.1171,0.1100,0.1024]}, ES41:{n:'Sevilla', min:27.52, kg:[0.1811,0.1531,0.1348,0.1239,0.1155,0.1073]}, ES42:{n:'Soria', min:23.57, kg:[0.1568,0.1325,0.1155,0.1088,0.1019,0.0946]}, ES43:{n:'Tarragona', min:18.35, kg:[0.1252,0.1061,0.0936,0.0853,0.0770,0.0717]}, ES44:{n:'Teruel', min:20.97, kg:[0.1393,0.1178,0.1019,0.0908,0.0825,0.0768]}, ES45:{n:'Toledo', min:18.35, kg:[0.1219,0.1029,0.0908,0.0840,0.0799,0.0741]}, ES46:{n:'Valencia', min:13.10, kg:[0.0905,0.0764,0.0689,0.0633,0.0576,0.0537]}, ES47:{n:'Valladolid', min:26.20, kg:[0.1741,0.1471,0.1293,0.1171,0.1100,0.1024]}, ES48:{n:'Vizcaya', min:26.59, kg:[0.1730,0.1465,0.1284,0.1189,0.1088,0.1013]}, ES49:{n:'Zamora', min:30.12, kg:[0.1985,0.1678,0.1458,0.1376,0.1265,0.1177]}, ES50:{n:'Zaragoza', min:19.66, kg:[0.1288,0.1089,0.0963,0.0880,0.0825,0.0768]}, ES51:{n:'Ceuta', min:52.41, kg:[0.3516,0.2972,0.2696,0.2615,0.2504,0.2329]}, ES52:{n:'Melilla', min:64.21, kg:[0.4280,0.3621,0.3329,0.3218,0.3136,0.2918]}, AD:{n:'Andorra', min:66.81, kg:[0.4491,0.3798,0.3357,0.3095,0.2861,0.2661]}, GB:{n:'Gibraltar', min:94.33, kg:[0.5373,0.5373,0.5373,0.5373,0.5373,0.5373]}, };
+const TSB_BAREMOS = {'ES01':5,'ES02':3,'ES03':1,'ES04':4,'ES05':6,'ES06':6,'ES08':3,'ES09':6,'ES10':6,'ES11':6,'ES12':1,'ES13':5,'ES14':4,'ES15':6,'ES16':6,'ES17':5,'ES18':4,'ES19':5,'ES20':5,'ES21':6,'ES22':5,'ES23':4,'ES24':6,'ES25':5,'ES26':5,'ES27':6,'ES28':3,'ES29':4,'ES30':2,'ES31':5,'ES32':6,'ES33':6,'ES34':6,'ES35':8,'ES36':6,'ES37':6,'ES38':8,'ES39':6,'ES40':6,'ES41':4,'ES42':6,'ES43':2,'ES44':6,'ES45':4,'ES46':1,'ES47':5,'ES48':5,'ES49':6,'ES50':2,'ES51':8,'ES52':8,'AD':3,'GB':6,'ES07-MAL':7,'ES07-MEN':7,'ES07-IBI':7,'ES07-FOR':7};
+const TSB_REX = {'AD':7,'ES07-MAL':1,'ES07-MEN':1,'ES07-IBI':1,'ES07-FOR':6,'GB':5,'ES35':6,'ES38':6,'ES51':1,'ES52':1};
+const TSB_FIXED_BRACKETS = [10,20,30,40,50,60,70,80,90,100,125,150,175,200,250,300,350,400,450,500,600,700,800,900,1000];
+const TSB_FIXED_RATES = [[6.19,6.32,6.42,6.56,6.76,7.14,12.58,47.36],[7.47,7.71,7.91,8.23,8.45,9.23,15.59,51.78],[8.20,8.56,8.86,9.36,9.60,10.76,17.88,58.13],[9.72,10.18,10.59,11.22,11.55,13.07,21.06,59.72],[11.05,11.57,12.10,12.90,13.28,15.20,23.95,62.65],[12.50,13.16,13.73,14.73,15.16,17.47,26.87,68.06],[13.88,14.63,15.33,16.50,16.99,19.67,29.52,72.25],[15.43,16.29,17.11,18.42,19.08,22.04,32.51,77.48],[16.76,17.71,18.59,20.11,20.93,24.18,34.93,82.96],[18.08,19.15,20.20,21.26,22.78,26.30,37.65,87.65],[19.43,20.76,21.89,23.40,25.19,29.51,43.47,99.82],[21.91,23.89,25.12,26.69,28.87,33.93,49.24,104.31],[24.62,27.45,28.67,30.14,32.77,38.53,55.07,112.21],[26.90,30.44,31.66,33.18,36.08,42.72,60.46,119.74],[32.55,36.78,38.42,40.39,43.90,52.25,71.98,133.75],[35.79,40.91,42.70,45.09,49.03,59.12,82.63,157.09],[39.03,45.44,47.27,49.79,54.14,66.02,93.19,176.18],[43.28,50.44,53.38,55.60,60.46,74.07,103.47,198.74],[48.57,55.75,58.94,62.39,68.17,83.16,116.10,219.16],[53.75,60.59,64.84,69.11,75.88,92.17,128.87,241.53],[61.30,69.65,74.65,79.63,87.81,107.10,147.28,277.97],[67.83,77.38,83.26,89.13,98.77,120.99,168.18,320.76],[73.90,84.11,94.68,98.14,108.75,134.33,190.16,342.54],[79.46,90.46,101.79,106.67,118.18,147.16,212.12,384.17],[84.72,96.80,109.48,114.81,127.23,159.60,231.04,421.90]];
+const TSB_TON_BRACKETS = [3000,5000,99999];
+const TSB_TON_RATES = [[81.50,93.10,104.01,111.52,123.58,156.13,218.98,358.88],[73.08,89.37,96.71,105.51,113.99,146.97,213.17,356.86],[66.86,83.28,88.46,98.97,106.91,140.26,207.35,355.95]];
+const TSB_TRANSIT = {'ES03':'24h','ES12':'24h','ES46':'24h','ES02':'24h','ES30':'24h','ES13':'24h','ES45':'24h','ES28':'24h','ES08':'24h','ES43':'24h','ES50':'24h','ES19':'24h','ES17':'24/48h','ES25':'24/48h','ES44':'24/48h','ES16':'24/48h','ES41':'24/48h','ES14':'24/48h','ES18':'24/48h','ES29':'24/48h','ES23':'24/48h','ES11':'24/48h','ES04':'24/48h','ES40':'24/48h','ES42':'24/48h','ES26':'24/48h','ES22':'24/48h','ES05':'48h','ES09':'48h','ES47':'48h','ES01':'48h','ES20':'48h','ES48':'48h','ES31':'48h','ES39':'48h','ES21':'48h','ES06':'48h','ES10':'48h','ES34':'48h','ES15':'48/72h','ES27':'48/72h','ES32':'48/72h','ES36':'48/72h','ES33':'48/72h','ES24':'48/72h','ES37':'48/72h','ES49':'48/72h','ES07-MAL':'48/72h','ES07-MEN':'48/72h','ES07-IBI':'48/72h','ES07-FOR':'48/72h','ES35':'7d','ES51':'48/72h','ES52':'48/72h','AD':'24/48h','GB':'48/72h'};
+const FNG_FIXED_BRACKETS = [10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,250,300,350,400,450,500,600,700,800,900,1000];
+const FNG_FIXED_RATES = [[5.79,6.65,5.79,9.25],[8.02,10.3,8.02,10.1],[9.69,12.45,9.69,12.64],[11.48,14.91,11.48,16.0],[13.21,17.21,13.21,19.66],[15.04,19.78,15.04,22.37],[16.71,21.96,16.71,25.03],[18.53,24.49,18.53,27.54],[20.26,26.84,20.26,29.92],[22.01,29.2,22.01,30.95],[24.96,32.47,24.96,35.54],[28.25,36.71,28.25,39.41],[31.14,39.85,31.14,48.06],[34.08,43.13,34.08,50.69],[37.32,47.21,37.32,56.03],[44.94,56.14,44.94,61.09],[52.58,65.09,52.58,69.72],[60.24,74.13,60.24,79.76],[67.82,82.94,67.82,87.96],[75.52,92.05,75.52,95.47],[83.12,100.97,83.12,102.24],[97.71,117.12,97.71,120.48],[112.37,133.47,112.37,140.57],[126.94,149.61,126.94,156.25],[141.47,165.65,141.47,175.77],[156.1,181.91,156.1,189.8]];
+const FNG_KG_BRACKETS = [2000,3000,5000,99999];
+const FNG_KG_RATES = [[0.15392,0.17438,0.15392,0.17605],[0.14627,0.1672,0.14627,0.16779],[0.13742,0.16373,0.13742,0.16779],[0.13167,0.16002,0.13167,0.16779]];
+const TRANSAHER_ZONE_MAP = {'ES01':7,'ES02':6,'ES03':3,'ES04':7,'ES05':7,'ES06':9,'ES08':4,'ES09':7,'ES10':9,'ES11':9,'ES12':2,'ES13':6,'ES14':7,'ES15':9,'ES16':8,'ES17':6,'ES18':7,'ES19':6,'ES20':8,'ES21':9,'ES22':8,'ES23':6,'ES24':9,'ES25':6,'ES26':7,'ES27':9,'ES28':4,'ES29':7,'ES30':3,'ES31':7,'ES32':9,'ES33':8,'ES34':8,'ES36':9,'ES37':8,'ES39':8,'ES40':6,'ES41':7,'ES42':8,'ES43':4,'ES44':8,'ES45':4,'ES46':1,'ES47':6,'ES48':7,'ES49':8,'ES50':5};
+const TRANSAHER_ENVIO_BRACKETS = [30,40,50,60,70,80,90,100];
+const TRANSAHER_ENVIO_RATES = [[6.20,7.20,7.51,8.81,9.72,10.29,11.21,11.60,12.44],[6.80,9.27,9.93,10.86,11.53,11.73,12.40,12.89,13.77],[8.41,10.28,10.80,12.06,12.36,13.02,13.59,14.32,15.29],[9.67,11.33,11.69,13.70,14.29,14.79,15.76,16.28,17.36],[11.11,12.42,12.75,14.39,16.13,16.44,17.59,18.09,19.30],[12.27,12.87,13.24,15.70,17.02,17.87,18.53,19.67,20.97],[12.86,13.40,13.47,16.46,17.47,18.21,19.35,20.70,22.07],[13.34,13.62,13.89,17.66,18.54,18.59,19.65,21.18,22.70]];
+const TRANSAHER_KG_BRACKETS = [200,300,500,750,1000,1500,1501];
+const TRANSAHER_KG_RATES = [[0.123,0.126,0.128,0.140,0.170,0.175,0.179,0.192,0.216],[0.105,0.107,0.109,0.130,0.143,0.146,0.149,0.163,0.193],[0.097,0.099,0.101,0.118,0.124,0.131,0.143,0.156,0.185],[0.096,0.098,0.100,0.109,0.121,0.127,0.138,0.150,0.179],[0.072,0.075,0.085,0.097,0.112,0.119,0.128,0.144,0.175],[0.065,0.074,0.082,0.093,0.107,0.116,0.126,0.142,0.172],[0.063,0.074,0.078,0.090,0.103,0.110,0.121,0.142,0.169]];
+const TRANSAHER_TRANSIT = {'ES02':'24h','ES03':'24h','ES04':'48h','ES05':'48h','ES06':'48h','ES08':'24h','ES48':'24/48h','ES09':'48h','ES10':'48h','ES11':'48h','ES12':'24h','ES13':'24h','ES14':'48h','ES15':'48h','ES16':'24/48h','ES17':'24/48h','ES18':'24/48h','ES19':'24h','ES21':'24/48h','ES23':'24/48h','ES24':'48h','ES25':'24/48h','ES26':'48h','ES27':'48h','ES28':'24h','ES29':'24/48h','ES30':'24h','ES32':'48h','ES33':'48h','ES07-MAL':'48/72h','ES34':'48h','ES31':'24/48h','ES36':'48h','ES20':'48h','ES37':'48h','ES39':'24/48h','ES40':'48h','ES41':'24/48h','ES42':'48h','ES43':'24h','ES44':'48h','ES22':'48h','ES45':'24h','ES46':'24h','ES47':'24/48h','ES01':'48h','ES49':'48h','ES50':'24h','ES07-MEN':'48/72h','ES07-IBI':'48/72h','ES07-FOR':'48/72h','ES35':'5/6d','ES51':'96h','ES52':'96h','AD':'48/72h','GB':'72h'};
+const TRANSAHER_DESPACHO = {'AD':26,'ES51':28,'ES52':28,'GB':52};
+const TRANSAHER_ESP_BRACKETS = [10,25,50,75,100,125,150,175,200,225,250,275,300,400,500,600,700,800,900,1000];
+const TRANSAHER_ESP_RATES = {'AD':[10.12,13.56,17.72,23.10,25.90,29.31,33.47,37.88,42.03,45.82,49.94,54.44,58.85,76.00,90.09,102.28,115.45,130.40,146.56,163.59],'ES51':[41.27,44.48,47.68,56.98,70.51,84.22,94.08,105.21,113.88,124.12,135.30,147.47,169.08,215.67,266.99,309.77,347.62,375.27,403.81,428.45],'ES52':[41.27,44.48,47.68,56.98,70.51,84.22,94.08,105.21,113.88,124.12,135.30,147.47,169.08,215.67,266.99,309.77,347.62,375.27,403.81,428.45],'GB':[58.76,63.23,67.72,75.19,80.34,85.03,95.13,104.07,114.99,125.34,136.62,148.92,159.23,169.54,197.20,220.51,242.62,265.31,288.22,316.14]};
+const TRANSAHER_ESP_PERKG = {'AD':0.131,'ES51':0.411,'ES52':0.411,'GB':0.304};
+const CARRERAS_DIRECTOS = {
+'ES01':[310.51,374.70,446.76,497.86,555.51,613.15,648.52,685.22,720.58],
+'ES02':[169.01,204.38,243.68,271.22,302.64,334.09,353.75,373.39,393.05],
+'ES03':[260.74,348.52,393.05,393.05,393.05,393.05,393.05,393.05,393.05],
+'ES04':[326.24,395.67,471.67,524.07,585.64,645.90,683.91,721.90,759.90],
+'ES05':[310.51,374.70,446.76,497.86,555.51,613.15,648.52,685.22,720.58],
+'ES06':[377.34,455.93,543.71,605.29,676.04,746.79,790.02,834.57,877.80],
+'ES08':[208.31,251.55,300.03,334.09,373.39,412.69,436.29,461.17,484.76],
+'ES09':[281.67,340.64,406.14,452.00,504.42,556.82,589.58,622.32,655.08],
+'ES10':[349.82,421.87,503.10,560.75,624.95,690.46,731.07,771.69,812.30],
+'ES11':[423.18,510.96,609.22,678.66,757.27,835.88,884.35,934.14,982.62],
+'ES12':[235.83,235.83,235.83,235.83,235.83,235.83,235.83,235.83,235.83],
+'ES13':[203.08,245.00,292.16,324.91,362.91,400.91,424.49,448.07,471.67],
+'ES14':[338.02,408.77,487.38,542.40,605.29,668.18,707.47,746.79,786.09],
+'ES15':[450.69,545.02,649.86,723.21,807.06,890.90,943.31,995.73,1048.13],
+'ES16':[208.31,251.55,300.03,334.09,373.39,412.69,436.29,461.17,484.76],
+'ES17':[281.67,340.64,406.14,452.00,504.42,556.82,589.58,622.32,655.08],
+'ES18':[326.24,395.67,471.67,524.07,585.64,645.90,683.91,721.90,759.90],
+'ES19':[225.35,272.52,324.91,361.60,403.54,445.46,471.67,497.86,524.07],
+'ES20':[356.81,430.31,513.16,571.97,637.44,704.27,745.70,787.11,828.54],
+'ES21':[423.18,510.96,609.22,678.66,757.27,835.88,884.35,934.14,982.62],
+'ES22':[237.13,285.60,340.64,379.94,423.18,467.72,495.23,522.75,550.26],
+'ES23':[310.51,374.70,446.76,497.86,555.51,613.15,648.52,685.22,720.58],
+'ES24':[366.84,442.85,527.99,588.26,656.40,724.52,766.45,809.68,851.60],
+'ES25':[220.10,265.97,317.07,352.44,393.05,434.97,459.86,486.08,510.96],
+'ES26':[254.16,306.58,365.53,407.45,454.62,501.80,530.63,560.75,589.58],
+'ES27':[438.92,531.92,634.12,704.87,787.40,868.64,919.73,970.83,1021.93],
+'ES28':[203.08,245.00,292.16,324.91,362.91,400.91,424.49,448.07,471.67],
+'ES29':[389.12,470.35,560.75,623.64,695.70,769.05,813.61,859.46,904.01],
+'ES30':[300.03,400.91,432.36,432.36,432.36,432.36,432.36,432.36,432.36],
+'ES31':[281.67,340.64,406.14,452.00,504.42,556.82,589.58,622.32,655.08],
+'ES32':[450.69,545.02,649.86,723.21,807.06,890.90,943.31,995.73,1048.13],
+'ES33':[406.14,489.99,584.33,651.16,725.82,801.82,848.98,896.15,943.31],
+'ES34':[310.51,374.70,446.76,497.86,555.51,613.15,648.52,685.22,720.58],
+'ES36':[467.72,566.00,674.72,750.72,837.19,924.98,978.68,1033.71,1087.43],
+'ES37':[338.02,408.77,487.38,542.40,605.29,668.18,707.47,746.79,786.09],
+'ES39':[366.84,442.85,527.99,588.26,656.40,724.52,766.45,809.68,851.60],
+'ES40':[281.67,340.64,406.14,452.00,504.42,556.82,589.58,622.32,655.08],
+'ES41':[338.02,408.77,487.38,542.40,605.29,668.18,707.47,746.79,786.09],
+'ES42':[225.35,272.52,324.91,361.60,403.54,445.46,471.67,497.86,524.07],
+'ES43':[180.81,217.49,259.41,289.55,322.31,356.37,377.34,398.29,419.24],
+'ES44':[169.01,204.38,243.68,271.22,302.64,334.09,353.75,373.39,393.05],
+'ES45':[225.35,272.52,324.91,361.60,403.54,445.46,471.67,497.86,524.07],
+'ES46':[157.22,157.22,157.22,157.22,157.22,157.22,157.22,157.22,157.22],
+'ES47':[281.67,340.64,406.14,452.00,504.42,556.82,589.58,622.32,655.08],
+'ES48':[331.13,401.60,478.74,531.93,594.43,655.59,694.17,732.72,771.30],
+'ES49':[366.84,442.85,527.99,588.26,656.40,724.52,766.45,809.68,851.60],
+'ES50':[203.08,245.00,292.16,324.91,362.91,400.91,424.49,448.07,471.67]};
+const CARRERAS_TRANSIT = {'ES03':'24h','ES12':'24h','ES46':'24h','ES02':'24h','ES44':'24h','ES45':'24h','ES13':'24h','ES08':'24h','ES43':'24h','ES25':'24h','ES17':'24h','ES28':'24h','ES19':'24h','ES50':'24h','ES22':'24h','ES26':'24h','ES31':'24h','ES30':'24h','ES41':'24h','ES14':'24h','ES18':'24h','ES23':'24h','ES29':'24h','ES16':'24h','ES40':'24h','ES42':'24h','ES09':'24h','ES01':'24h','ES20':'24h','ES48':'24h','ES47':'24h','ES05':'24h','ES04':'48h','ES06':'48h','ES10':'48h','ES11':'48h','ES21':'48h','ES24':'48h','ES34':'48h','ES37':'48h','ES49':'48h','ES39':'48h','ES33':'48h','ES36':'48h','ES15':'48h','ES27':'48h','ES32':'48h','ES07-MAL':'72h','ES07-MEN':'72h','ES07-IBI':'72h','ES07-FOR':'72h','ES35':'5/6d','ES51':'96h','ES52':'96h','AD':'72h','GB':'--'};
+const CARRERAS_DUA = {'ES51':35,'ES52':35,'GB':35};
+const LARATRANS_DIR = {'ES01':[190,230,300,325,405,450,530,570,590,690,730],'ES02':[155,170,190,215,235,245,265,270,280,300,350],'ES03':[130,140,165,185,200,235,245,255,265,285,320],'ES04':[215,250,300,340,360,385,405,570,620,680,720],'ES05':[210,245,300,330,340,385,415,440,500,640,670],'ES06':[200,260,350,425,480,530,575,595,690,775,775],'ES08':[175,200,240,260,285,340,385,425,465,515,550],'ES09':[190,225,310,330,390,425,445,490,530,640,680],'ES10':[200,260,360,425,480,565,585,615,770,775,775],'ES11':[290,380,420,555,595,700,820,935,960,980,980],'ES13':[180,190,245,275,305,325,340,365,400,415,465],'ES14':[215,275,370,435,464,535,600,640,670,710,720],'ES15':[220,290,425,490,565,660,725,810,850,1225,1225],'ES16':[165,180,215,245,275,320,360,405,425,465,465],'ES17':[230,285,335,370,405,460,505,540,615,720,775],'ES18':[170,295,350,405,420,495,535,600,650,670,690],'ES19':[180,200,240,260,290,365,400,430,510,515,550],'ES20':[200,270,325,360,395,425,490,545,575,690,720],'ES21':[290,380,415,515,580,710,810,925,1020,1115,1115],'ES22':[190,250,285,325,350,385,415,450,490,570,570],'ES23':[190,250,340,385,435,500,545,580,595,600,600],'ES24':[220,270,395,435,500,535,630,675,725,845,875],'ES25':[225,260,310,345,385,395,415,445,480,530,550],'ES26':[175,210,255,300,335,385,415,445,520,585,600],'ES27':[220,290,425,490,570,660,720,810,850,1135,1135],'ES28':[170,185,220,245,280,355,385,425,480,515,530],'ES29':[225,280,395,450,510,560,610,700,800,850,880],'ES30':[150,175,215,230,245,265,280,285,320,385,420],'ES31':[190,215,265,300,385,405,475,500,520,630,630],'ES32':[220,290,425,490,565,660,720,810,850,1135,1135],'ES33':[220,280,415,475,545,640,695,785,825,1100,1100],'ES34':[205,250,315,360,415,450,490,525,590,690,720],'ES36':[220,280,450,490,555,605,670,755,825,1135,1135],'ES37':[220,250,325,370,425,465,500,530,560,690,725],'ES39':[220,280,360,405,440,480,545,630,725,875,875],'ES40':[220,260,325,360,405,425,470,490,520,620,620],'ES41':[225,280,395,450,510,560,605,700,785,845,880],'ES42':[210,225,255,335,360,395,415,465,490,530,565],'ES43':[175,195,235,255,275,320,350,385,415,435,450],'ES44':[180,215,245,295,320,335,350,385,385,385,405],'ES45':[180,200,240,260,290,365,400,430,510,530,550],'ES47':[190,250,285,325,405,425,500,520,545,690,720],'ES48':[210,270,320,335,405,415,500,530,610,690,720],'ES49':[220,290,340,425,460,530,565,640,745,775,775],'ES50':[155,175,205,240,255,285,335,355,370,445,465]};
+const LARATRANS_ML = [1,2,3,4,5,6,7,8,9,10,13.6];
+const LARATRANS_TRANSIT_48H = new Set(['ES06','ES10','ES11','ES15','ES21','ES24','ES27','ES32','ES33','ES36','ES39']);
+
+const PROV_NAMES = {ES01:'Álava',ES02:'Albacete',ES03:'Alicante',ES04:'Almería',ES05:'Ávila',ES06:'Badajoz',ES07:'Baleares',ES08:'Barcelona',ES09:'Burgos',ES10:'Cáceres',ES11:'Cádiz',ES12:'Castellón',ES13:'Ciudad Real',ES14:'Córdoba',ES15:'Coruña',ES16:'Cuenca',ES17:'Gerona',ES18:'Granada',ES19:'Guadalajara',ES20:'Guipúzcoa',ES21:'Huelva',ES22:'Huesca',ES23:'Jaén',ES24:'León',ES25:'Lérida',ES26:'La Rioja',ES27:'Lugo',ES28:'Madrid',ES29:'Málaga',ES30:'Murcia',ES31:'Navarra',ES32:'Orense',ES33:'Asturias',ES34:'Palencia',ES35:'Canarias',ES36:'Pontevedra',ES37:'Salamanca',ES38:'Tenerife',ES39:'Cantabria',ES40:'Segovia',ES41:'Sevilla',ES42:'Soria',ES43:'Tarragona',ES44:'Teruel',ES45:'Toledo',ES46:'Valencia',ES47:'Valladolid',ES48:'Vizcaya',ES49:'Zamora',ES50:'Zaragoza',ES51:'Ceuta',ES52:'Melilla','AD':'Andorra','GB':'Gibraltar','ES07-MAL':'Mallorca','ES07-MEN':'Menorca','ES07-IBI':'Ibiza','ES07-FOR':'Formentera'};
+const TRAMOS_CARR = ['≤150 kg','151-200 kg','201-500 kg','501-1000 kg','1001-3000 kg','>3000 kg'];
+const TRAMOS_STD  = ['≤200 kg','201-500 kg','501-1000 kg','1001-2000 kg','2001-3000 kg','>3000 kg'];
+const ZONES_TRA = ['Z1','Z2','Z3','Z4','Z5','Z6','Z7','Z8','Z9'];
+const FMT = n => n.toFixed(4).replace('.',',');
+const FMT2 = n => n.toFixed(2).replace('.',',');
+
+function buildCarrerasTable() {
+  const provs = Object.keys(CARRERAS).sort();
+  let h = '<table><thead><tr><th>Cód.</th><th>Provincia</th><th>Mín. (€)</th>';
+  TRAMOS_CARR.forEach(t => h += '<th>'+t+'<br>€/kg</th>');
+  h += '<th>Tránsito</th><th>DUA</th></tr></thead><tbody>';
+  provs.forEach(p => {
+    const d = CARRERAS[p];
+    h += '<tr><td class="label">'+p+'</td><td class="prov">'+d.n+'</td><td>'+FMT2(d.min)+'</td>';
+    d.kg.forEach(r => h += '<td>'+FMT(r)+'</td>');
+    h += '<td style="text-align:center">'+(CARRERAS_TRANSIT[p]||'—')+'</td>';
+    h += '<td style="text-align:center">'+(CARRERAS_DUA[p]?CARRERAS_DUA[p]+' €':'—')+'</td>';
+    h += '</tr>';
+  });
+  return h + '</tbody></table>';
+}
+
+function buildTSBTable() {
+  const brackets = TSB_FIXED_BRACKETS;
+  const rates = TSB_FIXED_RATES;
+  let h = '<h3>Tarifas fijas (≤1000 kg) — Precio fijo por envío (€)</h3>';
+  h += '<table><thead><tr><th>Tramo (kg)</th>';
+  for(let b=1;b<=8;b++) h += '<th>B'+b+'</th>';
+  h += '</tr></thead><tbody>';
+  brackets.forEach((br, i) => {
+    const prev = i===0?0:brackets[i-1];
+    h += '<tr><td class="label">≤'+br+' kg</td>';
+    rates[i].forEach(r => h += '<td>'+FMT2(r)+'</td>');
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+
+  h += '<h3>Tarifas tonelaje (>1000 kg) — €/tonelada</h3>';
+  h += '<table><thead><tr><th>Tramo (kg)</th>';
+  for(let b=1;b<=8;b++) h += '<th>B'+b+'</th>';
+  h += '</tr></thead><tbody>';
+  TSB_TON_BRACKETS.forEach((br, i) => {
+    const label = i===0?'1001-3000':i===1?'3001-5000':'>5000';
+    h += '<tr><td class="label">'+label+' kg</td>';
+    TSB_TON_RATES[i].forEach(r => h += '<td>'+FMT2(r)+'</td>');
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+
+  h += '<h3>Baremos por provincia y REX</h3>';
+  h += '<table><thead><tr><th>Cód.</th><th>Provincia</th><th>Baremo</th><th>REX</th><th>Tránsito</th></tr></thead><tbody>';
+  Object.keys(TSB_BAREMOS).sort().forEach(p => {
+    h += '<tr><td class="label">'+p+'</td><td class="prov">'+(PROV_NAMES[p]||p)+'</td><td style="text-align:center">B'+TSB_BAREMOS[p]+'</td>';
+    h += '<td style="text-align:center">'+(TSB_REX[p]?'Sí (B'+TSB_REX[p]+')':'—')+'</td>';
+    h += '<td style="text-align:center">'+(TSB_TRANSIT[p]||'—')+'</td></tr>';
+  });
+  h += '</tbody></table>';
+  return h;
+}
+
+function buildFNGTable() {
+  const islands = ['Mallorca','Menorca','Ibiza','Formentera'];
+  let h = '<h3>Tarifas fijas (≤1000 kg) — Precio fijo por envío (€)</h3>';
+  h += '<table><thead><tr><th>Tramo (kg)</th>';
+  islands.forEach(i => h += '<th>'+i+'</th>');
+  h += '</tr></thead><tbody>';
+  FNG_FIXED_BRACKETS.forEach((br,i) => {
+    h += '<tr><td class="label">≤'+br+' kg</td>';
+    FNG_FIXED_RATES[i].forEach(r => h += '<td>'+FMT2(r)+'</td>');
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+  h += '<h3>Tarifas por kg (>1000 kg) — €/kg</h3>';
+  h += '<table><thead><tr><th>Tramo (kg)</th>';
+  islands.forEach(i => h += '<th>'+i+'</th>');
+  h += '</tr></thead><tbody>';
+  const kgLabels = ['1001-2000','2001-3000','3001-5000','>5000'];
+  FNG_KG_BRACKETS.forEach((br,i) => {
+    h += '<tr><td class="label">'+kgLabels[i]+' kg</td>';
+    FNG_KG_RATES[i].forEach(r => h += '<td>'+FMT(r)+'</td>');
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+  return h;
+}
+
+function buildTransaherTable() {
+  let h = '<h3>Mapa de zonas por provincia</h3>';
+  h += '<table><thead><tr><th>Cód.</th><th>Provincia</th><th>Zona</th><th>Tránsito</th><th>Despacho</th></tr></thead><tbody>';
+  Object.keys(TRANSAHER_ZONE_MAP).sort().forEach(p => {
+    h += '<tr><td class="label">'+p+'</td><td class="prov">'+(PROV_NAMES[p]||p)+'</td>';
+    h += '<td style="text-align:center">Z'+TRANSAHER_ZONE_MAP[p]+'</td>';
+    h += '<td style="text-align:center">'+(TRANSAHER_TRANSIT[p]||'—')+'</td>';
+    h += '<td style="text-align:center">'+(TRANSAHER_DESPACHO[p]?TRANSAHER_DESPACHO[p]+' €':'—')+'</td></tr>';
+  });
+  h += '</tbody></table>';
+
+  h += '<h3>Envío mínimo (≤100 kg) — Precio fijo por envío (€)</h3>';
+  h += '<table><thead><tr><th>Peso (kg)</th>';
+  ZONES_TRA.forEach(z => h += '<th>'+z+'</th>');
+  h += '</tr></thead><tbody>';
+  TRANSAHER_ENVIO_BRACKETS.forEach((br,i) => {
+    const prev = i===0?0:TRANSAHER_ENVIO_BRACKETS[i-1];
+    h += '<tr><td class="label">'+prev+'-'+br+' kg</td>';
+    TRANSAHER_ENVIO_RATES[i].forEach(r => h += '<td>'+FMT2(r)+'</td>');
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+
+  h += '<h3>Tarifa por kg (≥200 kg) — €/kg</h3>';
+  h += '<table><thead><tr><th>Tramo (kg)</th>';
+  ZONES_TRA.forEach(z => h += '<th>'+z+'</th>');
+  h += '</tr></thead><tbody>';
+  const kgLabels = ['200-300','300-500','500-750','750-1000','1000-1500','>1500','>1500+'];
+  TRANSAHER_KG_BRACKETS.forEach((br,i) => {
+    h += '<tr><td class="label">'+kgLabels[i]+' kg</td>';
+    TRANSAHER_KG_RATES[i].forEach(r => h += '<td>'+FMT(r)+'</td>');
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+
+  h += '<h3>Destinos especiales (Andorra, Ceuta, Melilla, Gibraltar) — Precio fijo (€)</h3>';
+  h += '<table><thead><tr><th>Tramo (kg)</th>';
+  Object.keys(TRANSAHER_ESP_RATES).forEach(p => h += '<th>'+(PROV_NAMES[p]||p)+'</th>');
+  h += '</tr></thead><tbody>';
+  TRANSAHER_ESP_BRACKETS.forEach((br,i) => {
+    h += '<tr><td class="label">≤'+br+' kg</td>';
+    Object.values(TRANSAHER_ESP_RATES).forEach(arr => h += '<td>'+(arr[i]!==undefined?FMT2(arr[i]):'—')+'</td>');
+    h += '</tr>';
+  });
+  h += '<tr style="background:#fffbeb"><td class="label">>1000 kg (€/kg)</td>';
+  Object.keys(TRANSAHER_ESP_RATES).forEach(p => h += '<td>'+TRANSAHER_ESP_PERKG[p]+'</td>');
+  h += '</tr></tbody></table>';
+  return h;
+}
+
+function buildCarrerasDirectosTable() {
+  const cols = ['5-6 pal','7-8 pal','9-11 pal','12-13 pal','14-16 pal','17-18 pal','19-21 pal','22-23 pal','>23 pal'];
+  const provs = Object.keys(CARRERAS_DIRECTOS).sort();
+  let h = '<table><thead><tr><th>Cód.</th><th>Provincia</th>';
+  cols.forEach(c => h += '<th>'+c+'</th>');
+  h += '<th>Tránsito</th></tr></thead><tbody>';
+  provs.forEach(p => {
+    const rates = CARRERAS_DIRECTOS[p];
+    h += '<tr><td class="label">'+p+'</td><td class="prov">'+(PROV_NAMES[p]||p)+'</td>';
+    rates.forEach(r => h += '<td>'+(r!==null?FMT2(r):'CONSULTAR')+'</td>');
+    const tr = CARRERAS_TRANSIT[p];
+    const trDir = ['ES06','ES10','ES11','ES15','ES21','ES24','ES27','ES32','ES33','ES36','ES37','ES39','ES41','ES49'].includes(p)?'48h':'24h';
+    h += '<td style="text-align:center">'+trDir+'</td></tr>';
+  });
+  h += '</tbody></table>';
+  return h;
+}
+
+function buildLaratransTable() {
+  const provs = Object.keys(LARATRANS_DIR).sort();
+  let h = '<table><thead><tr><th>Cód.</th><th>Provincia</th>';
+  LARATRANS_ML.forEach(ml => h += '<th>'+ml+' ml</th>');
+  h += '<th>Tránsito</th></tr></thead><tbody>';
+  provs.forEach(p => {
+    const rates = LARATRANS_DIR[p];
+    h += '<tr><td class="label">'+p+'</td><td class="prov">'+(PROV_NAMES[p]||p)+'</td>';
+    rates.forEach(r => h += '<td>'+FMT2(r)+'</td>');
+    h += '<td style="text-align:center">'+(LARATRANS_TRANSIT_48H.has(p)?'24-48h':'24h')+'</td></tr>';
+  });
+  h += '</tbody></table>';
+  return h;
+}
+
+window.onload = function() {
+  document.getElementById('carreras-table').innerHTML = buildCarrerasTable();
+  document.getElementById('tsb-table').innerHTML = buildTSBTable();
+  document.getElementById('fng-table').innerHTML = buildFNGTable();
+  document.getElementById('tra-table').innerHTML = buildTransaherTable();
+  document.getElementById('dir-table').innerHTML = buildCarrerasDirectosTable();
+  document.getElementById('lara-table').innerHTML = buildLaratransTable();
+};
+</script>
+
+<!-- ── SECCIÓN 1: CARRERAS ── -->
+<div class="section">
+<h2>1. CARRERAS — Tarifa ambiente (€/kg por provincia)</h2>
+<div class="note">
+  <strong>Tramos:</strong> ≤150 kg · 151-200 kg · 201-500 kg · 501-1000 kg · 1001-3000 kg · >3000 kg<br>
+  <strong>Servicios adicionales:</strong> Seguro 1% · ALDI +2,89€ · DUA Ceuta/Melilla/Gibraltar 35€ · Remontable −5%
+</div>
+<div id="carreras-table">Cargando...</div>
+</div>
+
+<!-- ── SECCIÓN 2: TSB ── -->
+<div class="section">
+<h2>2. TSB TRANSDINA — Tarifa por baremo</h2>
+<div class="note">
+  <strong>REX:</strong> Suplemento adicional para destinos especiales (Baleares, Canarias, Andorra, Gibraltar, Ceuta, Melilla)<br>
+  <strong>DUA:</strong> Gibraltar +25€ · <strong>Remontable:</strong> −5% sobre tarifa base
+</div>
+<div id="tsb-table">Cargando...</div>
+</div>
+
+<!-- ── SECCIÓN 3: FNG ── -->
+<div class="section">
+<h2>3. FNG FORNÉS — Solo Baleares</h2>
+<div class="note">
+  <strong>Tránsito:</strong> 48/72h para todas las islas · <strong>Remontable:</strong> −5%
+</div>
+<div id="fng-table">Cargando...</div>
+</div>
+
+<!-- ── SECCIÓN 4: TRANSAHER ── -->
+<div class="section">
+<h2>4. TRANSAHER</h2>
+<div class="note">
+  <strong>Área remota:</strong> +0,047€/kg mín 10€ (por código postal) · <strong>Valor declarado:</strong> 1% mín 10€ · <strong>Altura >2,3m:</strong> +0,020€/kg mín 15€ · <strong>Remontable:</strong> −5%
+</div>
+<div id="tra-table">Cargando...</div>
+</div>
+
+<!-- ── SECCIÓN 5: CARRERAS DIRECTOS ── -->
+<div class="section">
+<h2>5. CARRERAS — Servicios Directos (precio fijo por nº pallets, €)</h2>
+<div class="note">
+  <strong>Aplicación:</strong> ≥6 pallets europeos · <strong>Seguro:</strong> 1% automático · <strong>ALDI:</strong> +2,89€ · <strong>Remontable:</strong> −5%
+</div>
+<div id="dir-table">Cargando...</div>
+</div>
+
+<!-- ── SECCIÓN 6: LARATRANS ── -->
+<div class="section">
+<h2>6. LARATRANS — Servicios Directos (precio por metros lineales, €)</h2>
+<div class="note">
+  <strong>Tramos ml:</strong> 1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10 · 13,6 · <strong>Remontable:</strong> −5%
+</div>
+<div id="lara-table">Cargando...</div>
+</div>
+
+</body>
+</html>
